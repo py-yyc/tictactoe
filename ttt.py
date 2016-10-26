@@ -25,6 +25,26 @@ def x_count(board):
 def o_count(board):
     return len([ch for ch in board if ch == 'o'])
 
+def vertical_win(board, who):
+    for col in range(3):
+        num = 0
+        for row in range(3):
+            if board[row * 3 + col] == who:
+                num += 1
+        if num == 3:
+            return True
+    return False
+
+def diagonal_win(board, who):
+    n = 0
+    for p in range(3):
+        if board[(p * 3) + p] == who:
+            print board[(p * 3) + p], (p * 3) + p
+            n += 1
+    if n == 3:
+        return True
+    return False
+
 def game_state(board):
     if len(board) != 9:
         return GameStates.invalid
@@ -34,8 +54,19 @@ def game_state(board):
     diff = x_count(board) - o_count(board)
     if diff not in (0, 1):
         return GameStates.invalid
-    # x wins cases (8 cases)
-    xt = ['x', 'x', 'x']
-    if board[:3] == xt or board[3:6] == xt or board[6:] == xt:
-        return GameStates.x_wins
-    
+    stuff = [
+        ('x', GameStates.x_wins),
+        ('o', GameStates.o_wins),
+    ]
+    # x, o wins cases (8 cases)
+    for who, result in stuff:
+        xt = [who, who, who]
+        if board[:3] == xt or board[3:6] == xt or board[6:] == xt:
+            return result
+        if vertical_win(board, who):
+            return result
+        if diagonal_win(board, who):
+            return result
+
+    # draws cases FIXME
+    return GameStates.incomplete
