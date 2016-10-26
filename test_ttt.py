@@ -2,28 +2,131 @@ import unittest
 
 import ttt
 
-class TestTTT( unittest.TestCase ):
+class TestTTT(unittest.TestCase):
 
-    def test_1(self):
+    def test_invalid_wrong_size(self):
+        board = [
+            'x', '.', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
 
-        self.assertEqual( 0, 0 ) # pass
-        self.assertEqual( 1, 0 ) # fail
+    def test_invalid_illegal_char(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', 'o',
+            'x', '.', 'O',
+        ]
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
 
-        something = board = None
-        self.assertEqual( something, ttt.game_state( board ) )
+    def test_invalid_too_many_o_moves(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', 'o',
+            'x', 'o', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
 
-        # all built in test functions
-        # from: https://docs.python.org/2/library/unittest.html
+    def test_x_count(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', 'o',
+            'x', '.', '.',
+        ]
+        self.assertEqual(3, ttt.x_count(board))
+        self.assertEqual(2, ttt.o_count(board))
 
-        # self.assertEqual(a, b)            a == b
-        # self.assertNotEqual(a, b)         a != b
-        # self.assertTrue(x)                bool(x) is True
-        # self.assertFalse(x)               bool(x) is False
-        # self.assertIs(a, b)               a is b    2.7
-        # self.assertIsNot(a, b)            a is not b    2.7
-        # self.assertIsNone(x)              x is None    2.7
-        # self.assertIsNotNone(x)           x is not None    2.7
-        # self.assertIn(a, b)               a in b    2.7
-        # self.assertNotIn(a, b)            a not in b    2.7
-        # self.assertIsInstance(a, b)       isinstance(a, b)    2.7
-        # self.assertNotIsInstance(a, b)    not isinstance(a, b)    2.7
+    def test_x_win_0(self):
+        board = [
+            'x', 'x', 'x',
+            'o', '.', 'o',
+            '.', '.', '.',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_1(self):
+        board = [
+            'o', '.', 'o',
+            'x', 'x', 'x',
+            '.', '.', '.',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_2(self):
+        board = [
+            'o', '.', 'o',
+            '.', '.', '.',
+            'x', 'x', 'x',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_vert(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', '.',
+            'x', '.', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_o_win_vert(self):
+        board = [
+            'x', 'x', 'o',
+            '.', '.', 'o',
+            'x', '.', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.o_wins, ttt.game_state(board))
+
+    def test_x_win_vert_middle(self):
+        board = [
+            'o', 'x', '.',
+            'o', 'x', '.',
+            '.', 'x', '.',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_diag_0(self):
+        board = [
+            'x', '.', 'o',
+            '.', 'x', 'o',
+            '.', '.', 'x',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_diag_1(self):
+        board = [
+            'x', '.', 'x',
+            'o', 'x', 'o',
+            'x', 'o', '.',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_invalid_two_winners(self):
+        board = [
+            'o', 'x', '.',
+            'o', 'x', '.',
+            'o', 'x', '.',
+        ]
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
+
+    def test_incomplete_0(self):
+        board = [
+            'x', 'x', 'o',
+            'o', 'x', 'o',
+            'x', 'o', '.',
+        ]
+        self.assertEqual(ttt.GameStates.unfinished, ttt.game_state(board))
+
+    def test_draw(self):
+        board = [
+            'x', 'x', 'o',
+            'o', 'x', 'x',
+            'x', 'o', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.draw, ttt.game_state(board))
+
+    def test_o_count(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', 'o',
+            'x', '.', 'o',
+        ]
+        self.assertEqual(3, ttt.o_count(board))
