@@ -39,10 +39,13 @@ def diagonal_win(board, who):
     n = 0
     for p in range(3):
         if board[(p * 3) + p] == who:
-            print board[(p * 3) + p], (p * 3) + p
             n += 1
     if n == 3:
         return True
+
+    if board[2] == who and board[4] == who and board[6] == who:
+        return True
+
     return False
 
 def game_state(board):
