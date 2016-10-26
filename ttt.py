@@ -71,5 +71,10 @@ def game_state(board):
         if diagonal_win(board, who):
             return result
 
-    # draws cases FIXME
-    return GameStates.incomplete
+    # draw cases (basically: board has no empty spaces, and we haven't
+    # detected a winner yet
+    if len([ch for ch in board if ch == '.']) == 0:
+        return GameStates.draw
+
+    # everything else is just incomplete
+    return GameStates.unfinished
