@@ -27,15 +27,15 @@ def o_count(board):
 
 def game_state(board):
     if len(board) != 9:
-        return 'invalid'
+        return GameStates.invalid
     for c in board:
         if c not in ('x', 'o', '.'):
-            return 'invalid'
-    diff = x_count(board) - y_count(board)
+            return GameStates.invalid
+    diff = x_count(board) - o_count(board)
     if diff not in (0, 1):
-        return 'invalid'
+        return GameStates.invalid
     # x wins cases (8 cases)
     xt = ['x', 'x', 'x']
     if board[:3] == xt or board[3:6] == xt or board[6:] == xt:
-        return 'x wins'
+        return GameStates.x_wins
     

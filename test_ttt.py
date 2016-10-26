@@ -8,7 +8,7 @@ class TestTTT(unittest.TestCase):
         board = [
             'x', '.', 'o',
         ]
-        self.assertEqual('invalid', ttt.game_state(board))
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
 
     def test_invalid_illegal_char(self):
         board = [
@@ -16,7 +16,7 @@ class TestTTT(unittest.TestCase):
             'x', '.', 'o',
             'x', '.', 'O',
         ]
-        self.assertEqual('invalid', ttt.game_state(board))
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
 
     def test_x_count(self):
         board = [
@@ -27,10 +27,34 @@ class TestTTT(unittest.TestCase):
         self.assertEqual(3, ttt.x_count(board))
         self.assertEqual(2, ttt.o_count(board))
 
-    def test_x_win(self):
+    def test_x_win_0(self):
         board = [
             'x', 'x', 'x',
             'o', '.', 'o',
             '.', '.', '.',
         ]
-        self.assertEqual('x wins', ttt.game_state(board))
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_1(self):
+        board = [
+            'o', '.', 'o',
+            'x', 'x', 'x',
+            '.', '.', '.',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_2(self):
+        board = [
+            'o', '.', 'o',
+            '.', '.', '.',
+            'x', 'x', 'x',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_vert(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', '.',
+            'x', '.', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
