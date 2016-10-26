@@ -5,7 +5,18 @@ x goes first
 board is a list of 9 elements from ['x','o','.']. '.' means empty spot.
 """
 
-states = None # you decide what this should be
+states = [
+    'x wins',
+    'o wins',
+    'draw',
+    'invalid',
+    'incomplete',
+]
 
 def game_state(board):
-    return states # you decide what should get returned here
+    if len(board) != 9:
+        return 'invalid'
+    for c in board:
+        if c not in ('x', 'o', '.'):
+            return 'invalid'
+    return 'fixme'
