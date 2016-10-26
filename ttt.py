@@ -62,4 +62,47 @@ class Board(object):
         if self.board.count('x') < self.board.count('o'):
             return GameStates.invalid
 
+        if self.is_winner('x') > 1 or self.is_winner('o') > 1:
+            return GameStates.invalid
+
+        if self.is_winner('x') >= 1 and self.is_winner('o') >= 1:
+            return GameStates.invalid
+
+        if self.is_winner('x') == 1:
+            return GameStates.x_wins
+
+        if self.is_winner('o') == 1:
+            return GameStates.o_wins
+
+        if self.board.count(".") == 0:
+            return GameStates.draw
+
         return GameStates.unfinished
+
+    def same(self, three):
+        return three.count(three[0]) == 3
+
+    def winner(self, three):
+        if self.same(three):
+            return three[0]
+        return False
+
+    def is_winner(self, c):
+        "return number of times c has won"
+        count = 0
+        for i in range(3):
+            r = self.row(i)
+            if self.winner(r) == c:
+                count += 1
+
+            col = self.col(i)
+            if self.winner(col) == c:
+                count += 1
+
+        if self.winner(self.diag(0)) == c:
+            count += 1
+
+        if self.winner(self.diag(1)) == c:
+            count += 1
+
+        return count

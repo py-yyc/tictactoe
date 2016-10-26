@@ -53,6 +53,10 @@ class TestTTT( unittest.TestCase ):
 
     def test_good_boards(self):
         self.assertEqual( GameStates.unfinished, ttt.game_state(['.']*9) )
+        self.assertEqual( GameStates.x_wins, ttt.game_state( list("xxx.oo...") ) )
+        self.assertEqual( GameStates.x_wins, ttt.game_state( list("xo.xo.x..") ) )
+        self.assertEqual( GameStates.o_wins, ttt.game_state( list("ooo.xx.x.") ) )
 
-    def test_5(self):
-        pass
+    def test_10(self):
+        self.assertEqual( GameStates.invalid, ttt.game_state( list("xo.xo.xo.") ) )
+        self.assertEqual( GameStates.draw, ttt.game_state( list("xoxxoxoxo") ) )
