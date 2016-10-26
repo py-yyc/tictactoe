@@ -1,29 +1,83 @@
+
 import unittest
 
 import ttt
 
+GameStates = ttt.GameStates
+
+x = 'x'
+o = 'o'
+E = '.'
+
+
 class TestTTT( unittest.TestCase ):
 
-    def test_1(self):
+    def test_unfinished(self):
 
-        self.assertEqual( 0, 0 ) # pass
-        self.assertEqual( 1, 0 ) # fail
+        empty_board = [E, E, E,
+                        E, E, E,
+                        E, E, E]
 
-        something = board = None
-        self.assertEqual( something, ttt.game_state( board ) )
+        unfinished_board = [x, E, E,
+                        E, E, o,
+                        E, E, E]
 
-        # all built in test functions
-        # from: https://docs.python.org/2/library/unittest.html
 
-        # self.assertEqual(a, b)            a == b
-        # self.assertNotEqual(a, b)         a != b
-        # self.assertTrue(x)                bool(x) is True
-        # self.assertFalse(x)               bool(x) is False
-        # self.assertIs(a, b)               a is b    2.7
-        # self.assertIsNot(a, b)            a is not b    2.7
-        # self.assertIsNone(x)              x is None    2.7
-        # self.assertIsNotNone(x)           x is not None    2.7
-        # self.assertIn(a, b)               a in b    2.7
-        # self.assertNotIn(a, b)            a not in b    2.7
-        # self.assertIsInstance(a, b)       isinstance(a, b)    2.7
-        # self.assertNotIsInstance(a, b)    not isinstance(a, b)    2.7
+
+
+        self.assertEqual(GameStates.unfinished, ttt.game_state(empty_board) )
+        self.assertEqual(GameStates.unfinished, ttt.game_state(unfinished_board) )
+
+
+    def test_x_win(self):
+
+        x_win_board = [ o, o, x, 
+                        x, x, x, 
+                        o, o, x ]
+        self.assertEqual(GameStates.x_wins, ttt.game_state(x_win_board) )
+
+    def test_o_win(self):
+
+        o_win_board = [ o, o, o, 
+                        x, x, E, 
+                        x, E, x ]
+        self.assertEqual(GameStates.o_wins, ttt.game_state(o_win_board) )
+
+    def test_draw(self):
+
+        draw_board = [ o, x, o, 
+                        x, x, o, 
+                        x, o, x ]
+        self.assertEqual(GameStates.draw, ttt.game_state(draw_board) )
+
+    def test_invalid(self):
+
+
+        invalid_board_1 = [ o, o, o, 
+                           x, x, o, 
+                           o, o, x, o ]
+
+
+
+        invalid_board_2 = [ o, o, o, 
+                            x, x, "p", 
+                            o, o, x]
+
+        too_many_x_board = [x, x, E,
+                        E, E, o,
+                        E, x, E]
+
+        too_many_o_board = [o, x, E,
+                        o, E, o,
+                        o, x, E]
+ 
+        
+        self.assertEqual(GameStates.invalid, ttt.game_state(invalid_board_1) )
+        self.assertEqual(GameStates.invalid, ttt.game_state(invalid_board_2) )
+        self.assertEqual(GameStates.invalid, ttt.game_state(too_many_x_board) )
+        self.assertEqual(GameStates.invalid, ttt.game_state(too_many_o_board) )
+
+
+if __name__ == '__main__':
+    unittest.main()
+
