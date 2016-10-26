@@ -38,13 +38,8 @@ def vertical_win(board, who):
 
 
 def diagonal_win(board, who):
-    n = 0
-    for p in range(3):
-        if board[(p * 3) + p] == who:
-            n += 1
-    if n == 3:
+    if board[0] == who and board[4] == who and board[8] == who:
         return True
-
     if board[2] == who and board[4] == who and board[6] == who:
         return True
 
@@ -86,7 +81,7 @@ def game_state(board):
 
     # draw case (basically: board has no empty spaces, and we haven't
     # detected a winner yet
-    if len([ch for ch in board if ch == '.']) == 0:
+    if '.' not in board:
         return GameStates.draw
 
     # everything else is just incomplete
