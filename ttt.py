@@ -48,6 +48,17 @@ def diagonal_win(board, who):
 
     return False
 
+def is_winner(board, who):
+    # x, o wins cases (8 cases)
+    xt = [who, who, who]
+    if board[:3] == xt or board[3:6] == xt or board[6:] == xt:
+        return True
+    if vertical_win(board, who):
+        return True
+    if diagonal_win(board, who):
+        return True
+    return False
+
 def game_state(board):
     """
     Given
@@ -61,27 +72,14 @@ def game_state(board):
     if diff not in (0, 1):
         return GameStates.invalid
 
-    
-    to_check = [
-        ('x', GameStates.x_wins),
-        ('o', GameStates.o_wins),
-    ]
-    winners = []
-    # x, o wins cases (8 cases)
-    for who, result in to_check:
-        xt = [who, who, who]
-        if board[:3] == xt or board[3:6] == xt or board[6:] == xt:
-            winners.append(result)
-        if vertical_win(board, who):
-            winners.append(result)
-        if diagonal_win(board, who):
-            winners.append(result)
-    if len(winners):
-        for w in winners[1:]:
-            if w != winners[0]:
-                return GameStates.invalid
-        return winners[0]
-    
+    # x or o winning cases
+    if is_winner(board, 'x') and is_winner(board, 'o'):
+        return GameStates.invalid
+    if is_winner(board, 'x'):
+        return GameStates.x_wins
+    if is_winner(board, 'o'):
+        return GameStates.o_wins
+
     # draw cases (basically: board has no empty spaces, and we haven't
     # detected a winner yet
     if len([ch for ch in board if ch == '.']) == 0:
