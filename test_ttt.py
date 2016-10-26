@@ -18,6 +18,14 @@ class TestTTT(unittest.TestCase):
         ]
         self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
 
+    def test_invalid_too_many_o_moves(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', 'o',
+            'x', 'o', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
+
     def test_x_count(self):
         board = [
             'x', '.', 'o',
@@ -82,6 +90,14 @@ class TestTTT(unittest.TestCase):
             'x', 'o', '.',
         ]
         self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_invalid_two_winners(self):
+        board = [
+            'o', 'x', '.',
+            'o', 'x', '.',
+            'o', 'x', '.',
+        ]
+        self.assertEqual(ttt.GameStates.invalid, ttt.game_state(board))
 
     def test_incomplete_0(self):
         board = [

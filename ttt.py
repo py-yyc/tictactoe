@@ -49,6 +49,9 @@ def diagonal_win(board, who):
     return False
 
 def game_state(board):
+    """
+    Given
+    """
     if len(board) != 9:
         return GameStates.invalid
     for c in board:
@@ -57,20 +60,28 @@ def game_state(board):
     diff = x_count(board) - o_count(board)
     if diff not in (0, 1):
         return GameStates.invalid
-    stuff = [
+
+    
+    to_check = [
         ('x', GameStates.x_wins),
         ('o', GameStates.o_wins),
     ]
+    winners = []
     # x, o wins cases (8 cases)
-    for who, result in stuff:
+    for who, result in to_check:
         xt = [who, who, who]
         if board[:3] == xt or board[3:6] == xt or board[6:] == xt:
-            return result
+            winners.append(result)
         if vertical_win(board, who):
-            return result
+            winners.append(result)
         if diagonal_win(board, who):
-            return result
-
+            winners.append(result)
+    if len(winners):
+        for w in winners[1:]:
+            if w != winners[0]:
+                return GameStates.invalid
+        return winners[0]
+    
     # draw cases (basically: board has no empty spaces, and we haven't
     # detected a winner yet
     if len([ch for ch in board if ch == '.']) == 0:
