@@ -1,29 +1,58 @@
 import unittest
 
 import ttt
+from ttt import Board, GameStates
 
 class TestTTT( unittest.TestCase ):
 
+    def setUp(self):
+        self.valid = list("xo.xo.xo.")
+
     def test_1(self):
+        # with self.assertRaises(AssertionError):
+        #     Board(None)
 
-        self.assertEqual( 0, 0 ) # pass
-        self.assertEqual( 1, 0 ) # fail
+        # with self.assertRaises(AssertionError):
+        #     Board("")
 
-        something = board = None
-        self.assertEqual( something, ttt.game_state( board ) )
+        self.assertTrue( Board(['x']*9) )
 
-        # all built in test functions
-        # from: https://docs.python.org/2/library/unittest.html
+    def test_2(self):
+        b = Board(self.valid)
+        self.assertEqual(self.valid, b.board)
 
-        # self.assertEqual(a, b)            a == b
-        # self.assertNotEqual(a, b)         a != b
-        # self.assertTrue(x)                bool(x) is True
-        # self.assertFalse(x)               bool(x) is False
-        # self.assertIs(a, b)               a is b    2.7
-        # self.assertIsNot(a, b)            a is not b    2.7
-        # self.assertIsNone(x)              x is None    2.7
-        # self.assertIsNotNone(x)           x is not None    2.7
-        # self.assertIn(a, b)               a in b    2.7
-        # self.assertNotIn(a, b)            a not in b    2.7
-        # self.assertIsInstance(a, b)       isinstance(a, b)    2.7
-        # self.assertNotIsInstance(a, b)    not isinstance(a, b)    2.7
+    def test_3(self):
+        b = Board(self.valid)
+        self.assertEqual(list('xxx'), b.col(0) )
+        self.assertEqual(list('ooo'), b.col(1) )
+        self.assertEqual(list('...'), b.col(2) )
+
+    def test_4(self):
+        b = Board(self.valid)
+        self.assertEqual(list('xo.'), b.row(0) )
+        self.assertEqual(list('xo.'), b.row(1) )
+        self.assertEqual(list('xo.'), b.row(2) )
+
+
+    def test_5(self):
+        b = Board(self.valid)
+        self.assertEqual(list('xo.'), b.diag(0) )
+        self.assertEqual(list('.ox'), b.diag(1) )
+
+    def test_bad_boards(self):
+
+        # or something
+        self.assertEqual( GameStates.invalid, ttt.game_state( None ) )
+        self.assertEqual( GameStates.invalid, ttt.game_state( "xo.ox.ox." ) )
+        self.assertEqual( GameStates.invalid, ttt.game_state( [] ) )
+        self.assertEqual( GameStates.invalid, ttt.game_state( ['.']*8 ) )
+        self.assertEqual( GameStates.invalid, ttt.game_state( ['.']*10 ) )
+        self.assertEqual( GameStates.invalid, ttt.game_state( ['x']*2 + ['.']*7 ) )
+        self.assertEqual( GameStates.invalid, ttt.game_state( ['o']*2 + ['.']*7 ) )
+        self.assertEqual( GameStates.invalid, ttt.game_state( ['o']*1 + ['.']*8 ) ) # x goes first
+
+    def test_good_boards(self):
+        self.assertEqual( GameStates.unfinished, ttt.game_state(['.']*9) )
+
+    def test_5(self):
+        pass

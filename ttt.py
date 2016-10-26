@@ -19,4 +19,47 @@ class GameStates(object):
     draw       = 4
 
 def game_state(board):
-    return states # you decide what should get returned here
+    return Board(board).current_state()
+
+class Board(object):
+
+    def __init__(self, board):
+        self.board = board
+
+    def row(self, n):
+        return self.board[n*3:n*3+3]
+
+
+    def col(self, n):
+        ret = []
+        for i in range(3):
+            ret.append( self.board[n+i*3] )
+
+        return ret
+
+    def diag(self, n):
+        "0 is diag down-left \, 1 is diag down-right /"
+        ret = []
+        if n == 0:
+            for i in range(3):
+                ret.append(self.board[i*4])
+        if n == 1:
+            for i in range(3):
+                ret.append(self.board[2+i*2])
+
+        return ret
+
+    def current_state(self):
+        if not isinstance(self.board, types.ListType):
+            return GameStates.invalid
+
+        if len(self.board) != 9:
+            return GameStates.invalid
+
+        if abs( self.board.count('x') - self.board.count('o') ) > 1:
+            return GameStates.invalid
+
+        if self.board.count('x') < self.board.count('o'):
+            return GameStates.invalid
+
+        return GameStates.unfinished
