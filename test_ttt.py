@@ -58,3 +58,19 @@ class TestTTT(unittest.TestCase):
             'x', '.', 'o',
         ]
         self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_o_win_vert(self):
+        board = [
+            'x', 'x', 'o',
+            '.', '.', 'o',
+            'x', '.', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.o_wins, ttt.game_state(board))
+
+    def test_x_win_diag(self):
+        board = [
+            'x', '.', 'o',
+            '.', 'x', 'o',
+            '.', '.', 'x',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
