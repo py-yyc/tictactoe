@@ -122,3 +122,11 @@ class TestTTT(unittest.TestCase):
             'x', 'o', 'o',
         ]
         self.assertEqual(ttt.GameStates.draw, ttt.game_state(board))
+
+    def test_o_count(self):
+        board = [
+            'x', '.', 'o',
+            'x', '.', 'o',
+            'x', '.', 'o',
+        ]
+        self.assertEqual(3, ttt.o_count(board))
