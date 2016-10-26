@@ -67,10 +67,34 @@ class TestTTT(unittest.TestCase):
         ]
         self.assertEqual(ttt.GameStates.o_wins, ttt.game_state(board))
 
-    def test_x_win_diag(self):
+    def test_x_win_diag_0(self):
         board = [
             'x', '.', 'o',
             '.', 'x', 'o',
             '.', '.', 'x',
         ]
         self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_x_win_diag_1(self):
+        board = [
+            'x', '.', 'x',
+            'o', 'x', 'o',
+            'x', 'o', '.',
+        ]
+        self.assertEqual(ttt.GameStates.x_wins, ttt.game_state(board))
+
+    def test_incomplete_0(self):
+        board = [
+            'x', 'x', 'o',
+            'o', 'x', 'o',
+            'x', 'o', '.',
+        ]
+        self.assertEqual(ttt.GameStates.unfinished, ttt.game_state(board))
+
+    def test_draw(self):
+        board = [
+            'x', 'x', 'o',
+            'o', 'x', 'x',
+            'x', 'o', 'o',
+        ]
+        self.assertEqual(ttt.GameStates.draw, ttt.game_state(board))
