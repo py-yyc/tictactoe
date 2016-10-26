@@ -60,14 +60,14 @@ def is_winner(board, who):
     return False
 
 def game_state(board):
-    """
-    Given
-    """
+    # all invalid boards
     if len(board) != 9:
         return GameStates.invalid
     for c in board:
         if c not in ('x', 'o', '.'):
             return GameStates.invalid
+    # x goes first, so there's either the same number of x's and o's,
+    # or one more x than o
     diff = x_count(board) - o_count(board)
     if diff not in (0, 1):
         return GameStates.invalid
@@ -80,7 +80,7 @@ def game_state(board):
     if is_winner(board, 'o'):
         return GameStates.o_wins
 
-    # draw cases (basically: board has no empty spaces, and we haven't
+    # draw case (basically: board has no empty spaces, and we haven't
     # detected a winner yet
     if len([ch for ch in board if ch == '.']) == 0:
         return GameStates.draw
