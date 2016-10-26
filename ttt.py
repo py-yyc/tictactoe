@@ -5,7 +5,6 @@ x goes first
 board is a list of 9 elements from ['x','o','.']. '.' means empty spot.
 """
 
-import types
 
 class GameStates(object):
     """
@@ -22,8 +21,10 @@ class GameStates(object):
 def x_count(board):
     return len([ch for ch in board if ch == 'x'])
 
+
 def o_count(board):
     return len([ch for ch in board if ch == 'o'])
+
 
 def vertical_win(board, who):
     for col in range(3):
@@ -34,6 +35,7 @@ def vertical_win(board, who):
         if num == 3:
             return True
     return False
+
 
 def diagonal_win(board, who):
     n = 0
@@ -48,6 +50,7 @@ def diagonal_win(board, who):
 
     return False
 
+
 def is_winner(board, who):
     # x, o wins cases (8 cases)
     xt = [who, who, who]
@@ -58,6 +61,7 @@ def is_winner(board, who):
     if diagonal_win(board, who):
         return True
     return False
+
 
 def game_state(board):
     # all invalid boards
