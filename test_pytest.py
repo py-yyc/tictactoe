@@ -2,6 +2,7 @@ import unittest
 
 import ttt
 
+
 class TestTTT(unittest.TestCase):
 
     def test_invalid_wrong_size(self):

@@ -7,6 +7,7 @@ board is a list of 9 elements from ['x','o','.']. '.' means empty spot.
 
 import types
 
+
 class GameStates(object):
     """
     there are lots of ways to accomplish an enum like object
@@ -31,11 +32,10 @@ class Board(object):
     def row(self, n):
         return self.board[n*3:n*3+3]
 
-
     def col(self, n):
         ret = []
         for i in range(3):
-            ret.append( self.board[n+i*3] )
+            ret.append(self.board[n+i*3])
 
         return ret
 
@@ -58,7 +58,7 @@ class Board(object):
         if len(self.board) != 9:
             return GameStates.invalid
 
-        if abs( self.board.count('x') - self.board.count('o') ) > 1:
+        if abs(self.board.count('x') - self.board.count('o')) > 1:
             return GameStates.invalid
 
         if self.board.count('x') < self.board.count('o'):
