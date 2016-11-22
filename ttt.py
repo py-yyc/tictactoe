@@ -12,14 +12,16 @@ class GameStates(object):
     there are lots of ways to accomplish an enum like object
     this is the one we're going with since it's simple
     """
-    invalid    = 0
-    unfinished = 1
-    x_wins     = 2
-    o_wins     = 3
-    draw       = 4
+    invalid = 'invalid'
+    unfinished = 'unfinished'
+    x_wins = 'x wins'
+    o_wins = 'o wins'
+    draw = 'draw'
+
 
 def game_state(board):
     return Board(board).current_state()
+
 
 class Board(object):
 
