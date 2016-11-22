@@ -58,6 +58,10 @@ class Board(object):
         if len(self.board) != 9:
             return GameStates.invalid
 
+        for c in self.board:
+            if c not in ('x', 'o', '.'):
+                return GameStates.invalid
+
         if abs(self.board.count('x') - self.board.count('o')) > 1:
             return GameStates.invalid
 
