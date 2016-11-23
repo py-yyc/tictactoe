@@ -5,7 +5,7 @@ x goes first
 board is a list of 9 elements from ['x','o','.']. '.' means empty spot.
 """
 
-import sys
+# import sys
 import types
 
 
@@ -45,21 +45,37 @@ class AI(object):
         """
 
     @staticmethod
-    def evaluate(board, who):
+    def evaluate(board, who, turn=None):
         """
         Return a value for this board position, given you're playing as
         "who".
         """
 
-        if who == 'x' and board.current_state() == GameStates.x_wins:
-            return sys.maxint
-        if who == 'x' and board.current_state() == GameStates.o_wins:
-            return -sys.maxint
+        if turn is None:
+            turn = 'x' if turn == 'o' else 'o'
 
-        if who == 'o' and board.current_state() == GameStates.o_wins:
-            return sys.maxint
-        if who == 'o' and board.current_state() == GameStates.x_wins:
-            return -sys.maxint
+        state = board.current_state()
+
+        if who == 'x' and state == GameStates.x_wins or \
+                who == 'o' and state == GameStates.o_wins:
+            return 1
+        elif who == 'x' and state == GameStates.o_wins or \
+                who == 'o' and state == GameStates.x_wins:
+            return -1
+        elif state == GameStates.invalid or state == GameStates.draw:
+            return 0
+        else:
+            # unfinished
+            tot = 0
+
+            for i in range(3):
+                for j in range(3):
+                    new_board = board.clone()
+                    if new_board.is_free(i, j):
+                        new_board.move(turn, i, j)
+                        tot += AI.evaluate(new_board, who, 'x' if turn == 'o' else 'o')
+
+            return tot
 
 
 class Game(object):
@@ -101,6 +117,12 @@ class Board(object):
            state. Each char is either 'x', 'o' or '.'
         """
         self._board = board
+
+    def move(self, turn, col, row):
+        self._board[row * 3 + col] = turn
+
+    def clone(self):
+        return Board(list(self._board))
 
     def is_free(self, col, row):
         return self._board[row * 3 + col] == '.'

@@ -1,4 +1,4 @@
-import sys
+# import sys
 import unittest
 
 import ttt
@@ -13,7 +13,7 @@ class TestAI(unittest.TestCase):
             '.', '.', 'x',
         ])
         self.assertEqual(
-            sys.maxint,
+            1,
             ttt.AI.evaluate(board, 'x')
         )
 
@@ -24,7 +24,7 @@ class TestAI(unittest.TestCase):
             '.', '.', 'x',
         ])
         self.assertEqual(
-            -sys.maxint,
+            -1,
             ttt.AI.evaluate(board, 'o')
         )
 
@@ -44,9 +44,9 @@ class TestAI(unittest.TestCase):
             list(moves),
         )
 
-    def _test_eval(self):
+    def test_eval(self):
         board0 = ttt.Board([
-            '.', '.', '.'
+            '.', '.', '.',
             '.', 'x', '.',
             '.', '.', '.',
         ])
@@ -56,7 +56,7 @@ class TestAI(unittest.TestCase):
             '.', '.', '.',
         ])
         self.assertTrue(
-            ttt.AI.evaluate(board0, 'x') > ttt.AI.evaluate(board1, 'x')
+            ttt.AI.evaluate(board0, 'x', 'o') > ttt.AI.evaluate(board1, 'x', 'o')
         )
 
 
@@ -95,4 +95,7 @@ class TestGame(unittest.TestCase):
         self.game.move('x', 0, 0)
         with self.assertRaises(Exception) as ctx:
             self.game.move('x', 0, 0)
-        self.assertEqual("Invalid move", str(ctx.exception))
+            self.assertEqual("Invalid move", str(ctx.exception))
+
+if __name__ == '__main__':
+    unittest.main()
