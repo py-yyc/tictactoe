@@ -61,5 +61,15 @@ class TestTTT( unittest.TestCase ):
 		   '.', '.', '.' ]
 
 	self.assertEqual(ttt.game_state(unfinished_1), ttt.GameStates.unfinished)
+    def test_game_unfinished_2(self):
+	unfinished_1 = [ 'x', '.', '.',
+	 	   '.', '.', '.',
+		   '.', '.', '.' ]
+
+    def test_game_unvalid_2(self):
+	invalid_1 = [ 'o', '.', '.',
+	 	   '.', '.', '.',
+		   '.', '.', '.' ]
+	self.assertEqual(ttt.game_state(invalid_1), ttt.GameStates.invalid)
 if __name__ == "__main__":
     unittest.main()

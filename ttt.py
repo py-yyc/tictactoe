@@ -43,9 +43,10 @@ def find_win(board):
 			elif sum_threes == 3:
 				return GameStates.o_wins 
 	return None
-def is_balanced(board):
+
+def is_playing(board):
     board_n = change_numeric(board)
-    if sum(board_n) == 0:
+    if sum(board_n) == 0 or sum(board_n) == -1:
 	return True
     else:
 	return False
@@ -67,10 +68,11 @@ def game_state(board):
 	win_status = find_win(board)
 	
 	if not win_status:
-		if is_balanced(board) and not is_finished(board):
-			return GameStates.unfinished
-		elif is_finished and not is_invalid(board):
-			return GameStates.draw
+		if is_playing(board):
+			if not is_finished(board):
+				return GameStates.unfinished
+			elif is_finished(board) and is_playing(board):
+				return GameStates.draw
 		else:
 			return GameStates.invalid
 	else:
