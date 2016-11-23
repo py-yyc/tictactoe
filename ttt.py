@@ -24,13 +24,31 @@ def game_state(board):
     return Board(board).current_state()
 
 
+class AI(object):
+    def __init__(self, board, who):
+        self._game = Game(board)
+        self._who = who
+
+    def next_move(self):
+        """
+        Return a 2-tuple representing the row, col of our next move
+        """
+
+    @staticmethod
+    def evaluate(board, who):
+        """
+        Return a value for this board position, given you're playing as
+        "who".
+        """
+
+
 class Game(object):
     """
     I represent an in-progress tic-tac-toe game
     """
 
-    def __init__(self):
-        self._board = Board(['.', '.', '.', '.', '.', '.', '.', '.', '.'])
+    def __init__(self, board=['.', '.', '.', '.', '.', '.', '.', '.', '.']):
+        self._board = Board(board)
 
     def move(self, who, col, row):
         """
@@ -46,6 +64,7 @@ class Game(object):
         self._board._board[row * 3 + col] = who
 
         if self._board.current_state() == GameStates.invalid:
+            self._board._board[row * 3 + col] = '.'
             raise Exception("Invalid move")
 
 
