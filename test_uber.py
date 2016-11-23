@@ -19,7 +19,7 @@ def all_boards():
     for a in itertools.product('xo.', repeat=3):
         for b in itertools.product('xo.', repeat=3):
             for c in itertools.product('xo.', repeat=3):
-                yield a+b+c
+                yield a + b + c
 
 
 class UberTestTTT(unittest.TestCase):
