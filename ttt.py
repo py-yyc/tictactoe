@@ -31,7 +31,7 @@ class Board(object):
 
     def __init__(self, board):
         """
-        :param board: an array of 9 chars reprenesting the current
+        :param board: an array of 9 chars representing the current
            state. Each char is either 'x', 'o' or '.'
         """
         self._board = board
