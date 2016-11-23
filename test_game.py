@@ -17,6 +17,17 @@ class TestAI(unittest.TestCase):
             ttt.AI.evaluate(board, 'x')
         )
 
+    def test_eval_they_win(self):
+        board = ttt.Board([
+            'x', '.', 'o',
+            '.', 'x', 'o',
+            '.', '.', 'x',
+        ])
+        self.assertEqual(
+            -sys.maxint,
+            ttt.AI.evaluate(board, 'o')
+        )
+
     def _test_eval(self):
         board0 = ttt.Board([
             '.', '.', '.'

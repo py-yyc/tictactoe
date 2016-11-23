@@ -47,9 +47,9 @@ class AI(object):
         if who == 'x' and board.current_state() == GameStates.o_wins:
             return -sys.maxint
 
-        if who == 'y' and board.current_state() == GameStates.o_wins:
+        if who == 'o' and board.current_state() == GameStates.o_wins:
             return sys.maxint
-        if who == 'y' and board.current_state() == GameStates.x_wins:
+        if who == 'o' and board.current_state() == GameStates.x_wins:
             return -sys.maxint
 
 
