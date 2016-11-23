@@ -7,7 +7,7 @@ class TestAI(unittest.TestCase):
 
     def test_eval(self):
         board0 = ttt.Board([
-            '.', '.', '.'
+            '.', '.', '.',
             '.', 'x', '.',
             '.', '.', '.',
         ])
@@ -19,6 +19,20 @@ class TestAI(unittest.TestCase):
         self.assertTrue(
             ttt.AI.evaluate(board0, 'x') > ttt.AI.evaluate(board1, 'x')
         )
+
+    def test_close_to_finish(self):
+        board2 = ttt.Board([
+            'x', 'o', 'x',
+            'x', 'o', 'x',
+            'o', '.', '.'
+        ])
+        board3 = ttt.Board([
+            'o', 'o', 'x',
+            '.', 'x', 'o',
+            '.', '.', 'x'
+        ])
+        self.assertEquals(ttt.AI(board2, 'o').next_move(), (2, 1))
+        self.assertEquals(ttt.AI(board3, 'x').next_move(), (2, 0))
 
 
 class TestGame(unittest.TestCase):
