@@ -37,7 +37,7 @@ class UberTestTTT(unittest.TestCase):
         # x goes first
         self.assertEqual(GameStates.invalid, ttt.game_state(['o']*1 + ['.']*8))
 
-    def test_all_perms(self):
+    def _test_all_perms(self):
         results = {}
 
         for board in all_boards():
