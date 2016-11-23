@@ -30,10 +30,28 @@ class AI(object):
         self._game = Game(board)
         self._who = who
 
+    @property
+    def who(self):
+        return self._who
+
+    @property
+    def board(self):
+        return self._game._board
+
     def next_move(self):
         """
         Return a 2-tuple representing the row, col of our next move
         """
+        curr_score = self.evaluate(self.board, self.who)
+
+        for pos in self._possible_moves():
+            pass
+
+
+    def _possible_moves(self):
+        for i in range(9):
+            if self.board.pos(i) == '.':
+                yield i
 
     @staticmethod
     def evaluate(board, who):
@@ -41,6 +59,23 @@ class AI(object):
         Return a value for this board position, given you're playing as
         "who".
         """
+        middle = [4]
+        corners = [0,2,6,8]
+        edges = [1,3,5,7]
+
+        def count(board, positions, who, value):
+            score = 0
+            for n in positions:
+                if board[n] == who:
+                    score += value
+            return score
+
+        score = 0
+        score += count(board, middle, who, 3)
+        score += count(board, corners, who, 2)
+        score += count(board, edges, who, 1)
+
+        return score
 
         if who == 'x' and board.current_state() == GameStates.x_wins:
             return sys.maxint
@@ -92,6 +127,9 @@ class Board(object):
            state. Each char is either 'x', 'o' or '.'
         """
         self._board = board
+
+    def pos(self, n):
+        return self._board[n]
 
     def row(self, n):
         return self._board[n*3:n*3+3]
