@@ -9,15 +9,6 @@ class TestTTT(unittest.TestCase):
     def setUp(self):
         self.valid = list("xo.xo.xo.")
 
-    def test_1(self):
-        # with self.assertRaises(AssertionError):
-        #     Board(None)
-
-        # with self.assertRaises(AssertionError):
-        #     Board("")
-
-        self.assertTrue(Board(['x']*9))
-
     def test_3(self):
         b = Board(self.valid)
         self.assertEqual(list('xxx'), b.col(0))
