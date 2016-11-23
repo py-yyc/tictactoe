@@ -48,3 +48,15 @@ class TestTTT(unittest.TestCase):
     def test_10(self):
         self.assertEqual(GameStates.invalid, ttt.game_state(list("xo.xo.xo.")))
         self.assertEqual(GameStates.draw, ttt.game_state(list("xoxxoxoxo")))
+
+    def test_double_wins(self):
+        self.assertEqual(
+            GameStates.invalid,
+            ttt.game_state(
+                [
+                    'x', 'x', 'o',
+                    'o', 'x', 'o',
+                    'o', 'x', 'x',
+                ]
+            )
+        )
