@@ -22,7 +22,10 @@ class GameStates(object):
 
 
 def game_state(board):
-    return Board(board).current_state()
+    try:
+        return Board(board).current_state()
+    except:
+        return GameStates.invalid
 
 
 class AI(object):
@@ -38,15 +41,38 @@ class AI(object):
     def board(self):
         return self._game._board
 
+    def next_player(self, who):
+        return 'o' if who == 'x' else 'x'
+
     def next_move(self):
         """
         Return a 2-tuple representing the row, col of our next move
         """
-        curr_score = self.evaluate(self.board, self.who)
+        return self._next_move(self.board, self.who)
+
+    def _next_move(self, board, who):
+        curr_score = self.evaluate(board, who)
+
+        if curr_score in [sys.maxint, -sys.maxint]:
+            return None
+
+        curr_pos = None
+
+        # print [p for p in self._possible_moves()]
+        # assert 0
 
         for pos in self._possible_moves():
-            pass
+            next_board = board.copy
+            next_board[pos] = who
+            score = self.evaluate( next_board, who )
 
+            if score in [sys.maxint, -sys.maxint]:
+                return pos
+
+            if self._next_move( next_board, self.next_player(who) ) > curr_score:
+                curr_pos = pos
+
+        return curr_pos
 
     def _possible_moves(self):
         for i in range(9):
@@ -59,14 +85,30 @@ class AI(object):
         Return a value for this board position, given you're playing as
         "who".
         """
+        if who == 'x' and board.current_state() == GameStates.x_wins:
+            return sys.maxint
+
+        if who == 'x' and board.current_state() == GameStates.o_wins:
+            return -sys.maxint
+
+        if who == 'o' and board.current_state() == GameStates.o_wins:
+            return sys.maxint
+
+        if who == 'o' and board.current_state() == GameStates.x_wins:
+            return -sys.maxint
+
         middle = [4]
         corners = [0,2,6,8]
         edges = [1,3,5,7]
 
+        if isinstance(board, list):
+            print board
+            board = Board(board)
+
         def count(board, positions, who, value):
             score = 0
             for n in positions:
-                if board[n] == who:
+                if board.pos(n) == who:
                     score += value
             return score
 
@@ -77,16 +119,6 @@ class AI(object):
 
         return score
 
-        if who == 'x' and board.current_state() == GameStates.x_wins:
-            return sys.maxint
-        if who == 'x' and board.current_state() == GameStates.o_wins:
-            return -sys.maxint
-
-        if who == 'y' and board.current_state() == GameStates.o_wins:
-            return sys.maxint
-        if who == 'y' and board.current_state() == GameStates.x_wins:
-            return -sys.maxint
-
 
 class Game(object):
     """
@@ -96,7 +128,9 @@ class Game(object):
     def __init__(self, board=None):
         if board is None:
             board = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
-        self._board = Board(board)
+        if not isinstance(board, Board):
+            board = Board(board)
+        self._board = board
 
     def move(self, who, col, row):
         """
@@ -127,6 +161,17 @@ class Board(object):
            state. Each char is either 'x', 'o' or '.'
         """
         self._board = board
+
+    def __getitem__(self, n):
+        return self._board[n]
+
+    def __setitem__(self, n, val):
+        self._board[n] = val
+
+    @property
+    def copy(self):
+        import copy
+        return copy.deepcopy(self)
 
     def pos(self, n):
         return self._board[n]
