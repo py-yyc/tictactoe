@@ -24,6 +24,31 @@ def game_state(board):
     return Board(board).current_state()
 
 
+class Game(object):
+    """
+    I represent an in-progress tic-tac-toe game
+    """
+
+    def __init__(self):
+        self._board = Board(['.', '.', '.', '.', '.', '.', '.', '.', '.'])
+
+    def move(self, who, col, row):
+        """
+        Make a move. Raises an exception if you reach an invalid board
+        state.
+        """
+        if col < 0 or col > 2 or row < 0 or row > 2:
+            raise Exception("Invalid location")
+
+        if self._board._board[row * 3 + col] != '.':
+            raise Exception("Invalid move")
+
+        self._board._board[row * 3 + col] = who
+
+        if self._board.current_state() == GameStates.invalid:
+            raise Exception("Invalid move")
+
+
 class Board(object):
     """
     I represent a Tic Tac Toe board.
