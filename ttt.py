@@ -5,6 +5,10 @@ x goes first
 board is a list of 9 elements from ['x','o','.']. '.' means empty spot.
 """
 
+import copy
+import itertools
+import math
+import operator
 import sys
 import types
 
@@ -39,10 +43,25 @@ class AI(object):
         self._game = Game(board)
         self._who = who
 
+    
     def next_move(self):
         """
         Return a 2-tuple representing the row, col of our next move
         """
+        raw_board = self._game._board._board._board
+
+        scores = []
+        for i in range(len(raw_board)):
+            if raw_board[i] != '.':
+                scores.append(-sys.maxint)
+            else:
+                potential_board = copy.copy(raw_board)
+                potential_board[i] = self._who
+                scores.append(AI.evaluate(Board(potential_board), self._who))
+
+        max_index, max_value = max(enumerate(scores), key=operator.itemgetter(1))
+
+        return (max_index / 3, max_index % 3)
 
     @staticmethod
     def evaluate(board, who):
@@ -60,6 +79,23 @@ class AI(object):
             return sys.maxint
         if who == 'o' and board.current_state() == GameStates.x_wins:
             return -sys.maxint
+
+        blank_spots = board._board.count('.')
+        plays_left = 'x' * int(math.ceil(blank_spots / 2.0)) + 'o' * int(math.floor(blank_spots / 2.0))
+        possible_placements = itertools.permutations(plays_left, len(plays_left))
+
+        score = 0
+        other_player = 'o' if who == 'x' else 'x'
+
+        for placements in possible_placements:
+            placements = list(placements)
+            future_board = map(lambda p: placements.pop() if p == '.' else p, board._board)
+            if Board(future_board).is_winner(who) == 1:
+                score += 1
+            elif Board(future_board).is_winner(other_player) == 1:
+                score -= 1
+
+        return score
 
 
 class Game(object):
