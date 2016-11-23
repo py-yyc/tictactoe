@@ -76,12 +76,15 @@ class AI(object):
         possible_placements = itertools.permutations(plays_left, len(plays_left))
 
         score = 0
+        other_player = 'o' if who == 'x' else 'x'
 
         for placements in possible_placements:
             placements = list(placements)
             future_board = map(lambda p: placements.pop() if p == '.' else p, board._board)
             if Board(future_board).is_winner(who) == 1:
                 score += 1
+            elif Board(future_board).is_winner(other_player) == 1:
+                score -= 1
 
         return score
 
