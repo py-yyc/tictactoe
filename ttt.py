@@ -25,6 +25,15 @@ def game_state(board):
     return Board(board).current_state()
 
 
+def all_moves(board, who):
+    if who == 'x' and board.x_count() > board.o_count():
+        return
+    for row in range(3):
+        for col in range(3):
+            if board.is_free(col, row):
+                yield (col, row)
+
+
 class AI(object):
     def __init__(self, board, who):
         self._game = Game(board)
@@ -92,6 +101,15 @@ class Board(object):
            state. Each char is either 'x', 'o' or '.'
         """
         self._board = board
+
+    def is_free(self, col, row):
+        return self._board[row * 3 + col] == '.'
+
+    def x_count(self):
+        return len([ch for ch in self._board if ch == 'x'])
+
+    def o_count(self):
+        return len([ch for ch in self._board if ch == 'o'])
 
     def row(self, n):
         return self._board[n*3:n*3+3]

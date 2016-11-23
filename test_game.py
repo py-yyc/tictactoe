@@ -28,6 +28,22 @@ class TestAI(unittest.TestCase):
             ttt.AI.evaluate(board, 'o')
         )
 
+    def test_next_move(self):
+        board = ttt.Board([
+            'x', 'o', 'o',
+            'o', 'x', '.',
+            'x', 'o', '.',
+        ])
+
+        moves = ttt.all_moves(board, 'x')
+        self.assertEqual(
+            [
+                (2, 1),
+                (2, 2),
+            ],
+            list(moves),
+        )
+
     def _test_eval(self):
         board0 = ttt.Board([
             '.', '.', '.'
