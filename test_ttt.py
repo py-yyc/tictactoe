@@ -9,19 +9,19 @@ class TestTTT(unittest.TestCase):
     def setUp(self):
         self.valid = list("xo.xo.xo.")
 
-    def test_3(self):
+    def test_col_accessor(self):
         b = Board(self.valid)
         self.assertEqual(list('xxx'), b.col(0))
         self.assertEqual(list('ooo'), b.col(1))
         self.assertEqual(list('...'), b.col(2))
 
-    def test_4(self):
+    def test_row_accessor(self):
         b = Board(self.valid)
         self.assertEqual(list('xo.'), b.row(0))
         self.assertEqual(list('xo.'), b.row(1))
         self.assertEqual(list('xo.'), b.row(2))
 
-    def test_5(self):
+    def test_diag_accessor(self):
         b = Board(self.valid)
         self.assertEqual(list('xo.'), b.diag(0))
         self.assertEqual(list('.ox'), b.diag(1))
