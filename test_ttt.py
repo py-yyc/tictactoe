@@ -18,10 +18,6 @@ class TestTTT(unittest.TestCase):
 
         self.assertTrue(Board(['x']*9))
 
-    def test_2(self):
-        b = Board(self.valid)
-        self.assertEqual(self.valid, b.board)
-
     def test_3(self):
         b = Board(self.valid)
         self.assertEqual(list('xxx'), b.col(0))

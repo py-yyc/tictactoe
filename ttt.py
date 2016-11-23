@@ -25,17 +25,24 @@ def game_state(board):
 
 
 class Board(object):
+    """
+    I represent a Tic Tac Toe board.
+    """
 
     def __init__(self, board):
-        self.board = board
+        """
+        :param board: an array of 9 chars reprenesting the current
+           state. Each char is either 'x', 'o' or '.'
+        """
+        self._board = board
 
     def row(self, n):
-        return self.board[n*3:n*3+3]
+        return self._board[n*3:n*3+3]
 
     def col(self, n):
         ret = []
         for i in range(3):
-            ret.append(self.board[n+i*3])
+            ret.append(self._board[n+i*3])
 
         return ret
 
@@ -44,28 +51,28 @@ class Board(object):
         ret = []
         if n == 0:
             for i in range(3):
-                ret.append(self.board[i*4])
+                ret.append(self._board[i*4])
         if n == 1:
             for i in range(3):
-                ret.append(self.board[2+i*2])
+                ret.append(self._board[2+i*2])
 
         return ret
 
     def current_state(self):
-        if not isinstance(self.board, types.ListType):
+        if not isinstance(self._board, types.ListType):
             return GameStates.invalid
 
-        if len(self.board) != 9:
+        if len(self._board) != 9:
             return GameStates.invalid
 
-        for c in self.board:
+        for c in self._board:
             if c not in ('x', 'o', '.'):
                 return GameStates.invalid
 
-        if abs(self.board.count('x') - self.board.count('o')) > 1:
+        if abs(self._board.count('x') - self._board.count('o')) > 1:
             return GameStates.invalid
 
-        if self.board.count('x') < self.board.count('o'):
+        if self._board.count('x') < self._board.count('o'):
             return GameStates.invalid
 
         if self.is_winner('x') > 1 or self.is_winner('o') > 1:
@@ -80,7 +87,7 @@ class Board(object):
         if self.is_winner('o') == 1:
             return GameStates.o_wins
 
-        if self.board.count(".") == 0:
+        if self._board.count(".") == 0:
             return GameStates.draw
 
         return GameStates.unfinished
