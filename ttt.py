@@ -5,6 +5,7 @@ x goes first
 board is a list of 9 elements from ['x','o','.']. '.' means empty spot.
 """
 
+import sys
 import types
 
 
@@ -41,13 +42,25 @@ class AI(object):
         "who".
         """
 
+        if who == 'x' and board.current_state() == GameStates.x_wins:
+            return sys.maxint
+        if who == 'x' and board.current_state() == GameStates.o_wins:
+            return -sys.maxint
+
+        if who == 'y' and board.current_state() == GameStates.o_wins:
+            return sys.maxint
+        if who == 'y' and board.current_state() == GameStates.x_wins:
+            return -sys.maxint
+
 
 class Game(object):
     """
     I represent an in-progress tic-tac-toe game
     """
 
-    def __init__(self, board=['.', '.', '.', '.', '.', '.', '.', '.', '.']):
+    def __init__(self, board=None):
+        if board is None:
+            board = ['.', '.', '.', '.', '.', '.', '.', '.', '.']
         self._board = Board(board)
 
     def move(self, who, col, row):

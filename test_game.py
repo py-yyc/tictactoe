@@ -2,14 +2,24 @@ import unittest
 
 import ttt
 
+
 class TestAI(unittest.TestCase):
 
     def test_eval(self):
-        board0 = ['.', '.', '.', '.', 'x', '.', '.', '.', '.']
-        board1 = ['x', '.', '.', '.', '.', '.', '.', '.', '.']
+        board0 = ttt.Board([
+            '.', '.', '.'
+            '.', 'x', '.',
+            '.', '.', '.',
+        ])
+        board1 = ttt.Board([
+            'x', '.', '.',
+            '.', '.', '.',
+            '.', '.', '.',
+        ])
         self.assertTrue(
-            ttt.AI.evalute(board0) > ttt.AI.evaluate(board1)
+            ttt.AI.evaluate(board0, 'x') > ttt.AI.evaluate(board1, 'x')
         )
+
 
 class TestGame(unittest.TestCase):
 
